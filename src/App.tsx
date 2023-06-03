@@ -1,10 +1,12 @@
-import Counter from "./components/Counter";
+import AddPostForm from "./components/posts/AddPostForm";
+import PostsList from "./components/posts/PostsList";
 
 function App() {
   return (
-    <>
-      <Counter />
-    </>
+    <main>
+      {/* <AddPostForm /> */}
+      <PostsList />
+    </main>
   );
 }
 
