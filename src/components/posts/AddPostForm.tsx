@@ -10,19 +10,23 @@ import {
 const AddPostForm = () => {
   const dispatch = useDispatch();
   const [title, setTitle] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
+  const [content, setcontent] = useState<string>("");
 
   const titleChangeHandler: InputChangeEventHandler = (e) => {
     setTitle(e.target.value);
   };
 
-  const descriptionChangeHandler: TextareaChangeEventHandler = (e) => {
-    setDescription(e.target.value);
+  const contentChangeHandler: TextareaChangeEventHandler = (e) => {
+    setcontent(e.target.value);
   };
 
   const formSubmitHandler = (e: FormSubmitEventHandler) => {
     e.preventDefault();
-    // dispatch({ title, description });
+    if (title && content) {
+      dispatch(postAdded(title, content));
+      setTitle("");
+      setcontent("");
+    }
   };
 
   return (
@@ -31,16 +35,18 @@ const AddPostForm = () => {
       <input
         id="title"
         type="text"
+        value={title}
         placeholder="Enter post title..."
         onChange={titleChangeHandler}
       />
-      <label htmlFor="description">Title</label>
+      <label htmlFor="content">Title</label>
       <textarea
-        id="description"
+        id="content"
+        value={content}
         placeholder="Enter post descriiption..."
         rows={5}
         cols={50}
-        onChange={descriptionChangeHandler}
+        onChange={contentChangeHandler}
       />
       <button type="submit">Add Post</button>
     </form>
