@@ -7,7 +7,7 @@ const PostsList = () => {
   const renderedPosts = postsState.map((post: PostsState) => {
     const { id, content, title } = post;
     return (
-      <article id={id}>
+      <article key={id}>
         <h3>{title}</h3>
         <p>{content.substring(0, 100)}</p>
       </article>

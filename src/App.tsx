@@ -4,7 +4,7 @@ import PostsList from "./components/posts/PostsList";
 function App() {
   return (
     <main>
-      {/* <AddPostForm /> */}
+      <AddPostForm />
       <PostsList />
     </main>
   );
