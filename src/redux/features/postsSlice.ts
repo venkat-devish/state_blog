@@ -1,9 +1,12 @@
 import { createSlice, nanoid, PayloadAction } from "@reduxjs/toolkit"
+import { sub } from "date-fns"
 
 export type PostsState = {
     id: string,
     title: string,
-    content: string
+    content: string,
+    user?: string,
+    date: string
 }
 
 type AddPostPayloadType = {
@@ -16,11 +19,13 @@ const initialState: PostsState[] = [
         id: '1',
         title: 'Learning Redux Toolkit',
         content: "I've heard good things.",
+        date: sub(new Date(), { minutes: 10 }).toISOString()
     },
     {
         id: '2',
         title: 'Slices...',
         content: "The more I say slice, the more I want pizza.",
+        date: sub(new Date(), { minutes: 5 }).toISOString()
     }
 ]
 
@@ -33,12 +38,16 @@ const postsSlice = createSlice({
                 console.log(action.payload)
                 state.push(action.payload)
             },
-            prepare: (title, content) => {
+            prepare: (title, content, user) => {
+                const id = nanoid();
+                const date = new Date().toISOString();
                 return {
                     payload: {
-                        id: nanoid(),
+                        id,
                         title,
-                        content
+                        content,
+                        user,
+                        date
                     }
                 }
             },
@@ -49,4 +58,5 @@ const postsSlice = createSlice({
 
 export const { postAdded } = postsSlice.actions;
 export const posts = (state: any) => state.posts;
+export const user = (state: any) => state.posts.user;
 export default postsSlice.reducer;

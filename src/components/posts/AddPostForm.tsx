@@ -1,16 +1,20 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { postAdded } from "../../redux/features/postsSlice";
 import {
   FormSubmitEventHandler,
   InputChangeEventHandler,
+  SelectChangeEventHandler,
   TextareaChangeEventHandler,
 } from "../../types";
+import { users } from "../../redux/features/usersSlice";
 
 const AddPostForm = () => {
-  const dispatch = useDispatch();
   const [title, setTitle] = useState<string>("");
   const [content, setcontent] = useState<string>("");
+  const [user, setUser] = useState<string>("");
+  const dispatch = useDispatch();
+  const usesState = useSelector(users);
 
   const titleChangeHandler: InputChangeEventHandler = (e) => {
     setTitle(e.target.value);
@@ -23,11 +27,25 @@ const AddPostForm = () => {
   const formSubmitHandler = (e: FormSubmitEventHandler) => {
     e.preventDefault();
     if (title && content) {
-      dispatch(postAdded(title, content));
-      setTitle("");
-      setcontent("");
+      dispatch(postAdded(title, content, user));
+      //   setTitle("");
+      //   setcontent("");
     }
   };
+
+  const userOptions = usesState.map((user: any) => {
+    return (
+      <option key={user.id} value={user.id}>
+        {user.name}
+      </option>
+    );
+  });
+
+  const userSelectHandler: SelectChangeEventHandler = (e) => {
+    setUser(e.target.value);
+  };
+
+  const isButtonActive = title && content;
 
   return (
     <form onSubmit={formSubmitHandler}>
@@ -39,6 +57,10 @@ const AddPostForm = () => {
         placeholder="Enter post title..."
         onChange={titleChangeHandler}
       />
+      <select id="users" onChange={userSelectHandler}>
+        <option value="">Select...</option>
+        {userOptions}
+      </select>
       <label htmlFor="content">Title</label>
       <textarea
         id="content"
@@ -48,7 +70,9 @@ const AddPostForm = () => {
         cols={50}
         onChange={contentChangeHandler}
       />
-      <button type="submit">Add Post</button>
+      <button disabled={!isButtonActive} type="submit">
+        Add Post
+      </button>
     </form>
   );
 };
