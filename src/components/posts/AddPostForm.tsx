@@ -28,8 +28,8 @@ const AddPostForm = () => {
     e.preventDefault();
     if (title && content) {
       dispatch(postAdded(title, content, user));
-      //   setTitle("");
-      //   setcontent("");
+      setTitle("");
+      setcontent("");
     }
   };
 
@@ -57,15 +57,16 @@ const AddPostForm = () => {
         placeholder="Enter post title..."
         onChange={titleChangeHandler}
       />
+      <label>User</label>
       <select id="users" onChange={userSelectHandler}>
         <option value="">Select...</option>
         {userOptions}
       </select>
-      <label htmlFor="content">Title</label>
+      <label htmlFor="content">Description</label>
       <textarea
         id="content"
         value={content}
-        placeholder="Enter post descriiption..."
+        placeholder="Enter post description..."
         rows={5}
         cols={50}
         onChange={contentChangeHandler}
