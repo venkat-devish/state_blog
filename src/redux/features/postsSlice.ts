@@ -81,7 +81,6 @@ const postsSlice = createSlice({
             },
         },
         reactionAdded: (state, { payload }) => {
-            console.log(payload)
             const { postId, reactionName }: PostPayLoadType = payload;
             const isExisting = state.find(post => post.id === postId)
             if (isExisting) {
